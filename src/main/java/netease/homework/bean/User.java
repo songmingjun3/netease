@@ -3,15 +3,15 @@ package netease.homework.bean;
 public class User {
     private Integer userId;
 
-    private String name;
+    private String username;
 
     private String password;
 
     private Integer salerorbuyer;
 
-    public User(Integer userId, String name, String password, Integer salerorbuyer) {
+    public User(Integer userId, String username, String password, Integer salerorbuyer) {
         this.userId = userId;
-        this.name = name;
+        this.username = username;
         this.password = password;
         this.salerorbuyer = salerorbuyer;
     }
@@ -28,12 +28,12 @@ public class User {
         this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
     }
 
     public String getPassword() {

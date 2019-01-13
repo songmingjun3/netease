@@ -1,90 +1,91 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="netease.homework.dao.OrderMapper" >
-  <resultMap id="BaseResultMap" type="netease.homework.bean.Order" >
-    <constructor >
-      <idArg column="order_no" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="total_price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
-      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="netease.homework.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="netease.homework.bean.Order">
+    <constructor>
+      <idArg column="order_no" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="total_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     order_no, user_id, create_time, total_price, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from order
     where order_no = #{orderNo,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from order
     where order_no = #{orderNo,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="netease.homework.bean.Order" >
+  <insert id="insert" parameterType="netease.homework.bean.Order">
     insert into order (order_no, user_id, create_time, 
       total_price, update_time)
     values (#{orderNo,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, now(),
       #{totalPrice,jdbcType=DECIMAL}, now())
   </insert>
-  <insert id="insertSelective" parameterType="netease.homework.bean.Order" >
+  <insert id="insertSelective" parameterType="netease.homework.bean.Order">
     insert into order
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="orderNo != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
         order_no,
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         user_id,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="totalPrice != null" >
+      <if test="totalPrice != null">
         total_price,
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         update_time,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="orderNo != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
         #{orderNo,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         now(),
       </if>
-      <if test="totalPrice != null" >
+      <if test="totalPrice != null">
         #{totalPrice,jdbcType=DECIMAL},
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         now(),
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="netease.homework.bean.Order" >
+  <update id="updateByPrimaryKeySelective" parameterType="netease.homework.bean.Order">
     update order
-    <set >
-      <if test="userId != null" >
+    <set>
+      <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="totalPrice != null" >
+      <if test="totalPrice != null">
         total_price = #{totalPrice,jdbcType=DECIMAL},
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         update_time = now(),
       </if>
     </set>
     where order_no = #{orderNo,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="netease.homework.bean.Order" >
+  <update id="updateByPrimaryKey" parameterType="netease.homework.bean.Order">
     update order
     set user_id = #{userId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},

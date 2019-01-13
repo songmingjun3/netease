@@ -1,84 +1,100 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="netease.homework.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="netease.homework.bean.User" >
-    <constructor >
-      <idArg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="salerorbuyer" jdbcType="INTEGER" javaType="java.lang.Integer" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="netease.homework.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="netease.homework.bean.User">
+    <constructor>
+      <idArg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="salerorbuyer" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
-  <sql id="Base_Column_List" >
-    user_id, name, password, salerorbuyer
+  <sql id="Base_Column_List">
+    user_id, username, password, salerorbuyer
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="netease.homework.bean.User" >
-    insert into user (user_id, name, password, 
+  <insert id="insert" parameterType="netease.homework.bean.User">
+    insert into user (user_id, username, password, 
       salerorbuyer)
-    values (#{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{salerorbuyer,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="netease.homework.bean.User" >
+  <insert id="insertSelective" parameterType="netease.homework.bean.User">
     insert into user
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
         user_id,
       </if>
-      <if test="name != null" >
-        name,
+      <if test="username != null">
+        username,
       </if>
-      <if test="password != null" >
+      <if test="password != null">
         password,
       </if>
-      <if test="salerorbuyer != null" >
+      <if test="salerorbuyer != null">
         salerorbuyer,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
+      <if test="password != null">
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="salerorbuyer != null" >
+      <if test="salerorbuyer != null">
         #{salerorbuyer,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="netease.homework.bean.User" >
+  <update id="updateByPrimaryKeySelective" parameterType="netease.homework.bean.User">
     update user
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
+      <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="salerorbuyer != null" >
+      <if test="salerorbuyer != null">
         salerorbuyer = #{salerorbuyer,jdbcType=INTEGER},
       </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="netease.homework.bean.User" >
+  <update id="updateByPrimaryKey" parameterType="netease.homework.bean.User">
     update user
-    set name = #{name,jdbcType=VARCHAR},
+    set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       salerorbuyer = #{salerorbuyer,jdbcType=INTEGER}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+
+  <select id="checkUserName" parameterType="string" resultType="java.lang.Integer">
+    select count(1) from user
+    where username = #{username}
+  </select>
+
+  <select id="selectLogin" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List"/>
+    from user
+    where username = #{username}
+    and password = #{password}
+  </select>
+
+
+
 </mapper>

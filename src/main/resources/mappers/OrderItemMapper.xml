@@ -1,34 +1,46 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="netease.homework.dao.OrderItemMapper" >
-  <resultMap id="BaseResultMap" type="netease.homework.bean.OrderItem" >
-    <constructor >
-      <idArg column="order_item_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="product_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="picture" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
-      <arg column="buy_counts" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="order_no" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="netease.homework.dao.OrderItemMapper">
+  <resultMap id="BaseResultMap" type="netease.homework.bean.OrderItem">
+    <constructor>
+      <idArg column="order_item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="product_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="picture" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="buy_counts" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="order_no" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="status" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     order_item_id, product_id, title, picture, price, buy_counts, order_no, user_id, 
     status
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from order_item
     where order_item_id = #{orderItemId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <select id="selectPriceByUserIdAndProductId" resultType="java.math.BigDecimal">
+    select price from order_item
+    where user_id = #{userId} and product_id =#{productId}
+  </select>
+
+  <select id="selectOrderItemByUserId" resultMap="BaseResultMap" parameterType="integer">
+    select
+    <include refid="Base_Column_List"/>
+    FROM order_item
+    where user_id = #{userId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from order_item
     where order_item_id = #{orderItemId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="netease.homework.bean.OrderItem" >
+  <insert id="insert" parameterType="netease.homework.bean.OrderItem">
     insert into order_item (order_item_id, product_id, title, 
       picture, price, buy_counts, 
       order_no, user_id, status
@@ -38,98 +50,98 @@
       #{orderNo,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="netease.homework.bean.OrderItem" >
+  <insert id="insertSelective" parameterType="netease.homework.bean.OrderItem">
     insert into order_item
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="orderItemId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderItemId != null">
         order_item_id,
       </if>
-      <if test="productId != null" >
+      <if test="productId != null">
         product_id,
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         title,
       </if>
-      <if test="picture != null" >
+      <if test="picture != null">
         picture,
       </if>
-      <if test="price != null" >
+      <if test="price != null">
         price,
       </if>
-      <if test="buyCounts != null" >
+      <if test="buyCounts != null">
         buy_counts,
       </if>
-      <if test="orderNo != null" >
+      <if test="orderNo != null">
         order_no,
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         user_id,
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="orderItemId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderItemId != null">
         #{orderItemId,jdbcType=INTEGER},
       </if>
-      <if test="productId != null" >
+      <if test="productId != null">
         #{productId,jdbcType=INTEGER},
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="picture != null" >
+      <if test="picture != null">
         #{picture,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
+      <if test="price != null">
         #{price,jdbcType=DECIMAL},
       </if>
-      <if test="buyCounts != null" >
+      <if test="buyCounts != null">
         #{buyCounts,jdbcType=INTEGER},
       </if>
-      <if test="orderNo != null" >
+      <if test="orderNo != null">
         #{orderNo,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="netease.homework.bean.OrderItem" >
+  <update id="updateByPrimaryKeySelective" parameterType="netease.homework.bean.OrderItem">
     update order_item
-    <set >
-      <if test="productId != null" >
+    <set>
+      <if test="productId != null">
         product_id = #{productId,jdbcType=INTEGER},
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="picture != null" >
+      <if test="picture != null">
         picture = #{picture,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
+      <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
       </if>
-      <if test="buyCounts != null" >
+      <if test="buyCounts != null">
         buy_counts = #{buyCounts,jdbcType=INTEGER},
       </if>
-      <if test="orderNo != null" >
+      <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
     </set>
     where order_item_id = #{orderItemId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="netease.homework.bean.OrderItem" >
+  <update id="updateByPrimaryKey" parameterType="netease.homework.bean.OrderItem">
     update order_item
     set product_id = #{productId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
